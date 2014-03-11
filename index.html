@@ -30,6 +30,20 @@
 
         $('.updatenow').on('click', update);
 
+        //Allow user to set auto-update frequency.
+        $('.updatetime').on('keyup', function(event){
+          if(event.keyCode == 13){
+            var ms = Number($(this).val());
+            if(ms){
+              updateTime = ms * 1000;
+              update();
+            }else{
+              alert("Error: Not a valid number!");
+            }
+            $(this).blur();
+          }
+        });
+
         //Initial display of tweets upon opening page.
         update();
 
@@ -42,7 +56,7 @@
     <input class="input" type="text" value="Enter your tweet here!"></input>
     <button class="enter">Enter</button>
     <p>
-    Auto-update every: <input class="updatetime" type="text">seconds <button class="updatenow">Update now!</button>
+    Auto-update every: <input class="updatetime" type="number" value='3'></input>seconds <button class="updatenow">Update now!</button>
     <div class="tweets"></div>
 
   </body>

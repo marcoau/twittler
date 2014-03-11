@@ -12,63 +12,73 @@
       $(document).ready(function(){
         streams.users[visitor] = [];
 
-        //Used for stopping setTimeouts of both update & usertweet
         var timer;
+        var autoUpdateMode = true;
+        var viewMode = "mracus";
 
         //Initial tweet displaying mechanism.
         var update = function(){
+
           var $body = $('.tweets');
           $body.html('');
 
-          var index = streams.home.length - 1;
+          if(viewMode === "all"){
+            var tweetSource = streams.home;
+          }else{
+            var tweetSource = streams.users[viewMode];
+            $body.append('<h3>All tweets by @' + viewMode + "</h3>");
+            $body.append('<button class="back">Back</button>');
+          }
+
+          var index = tweetSource.length - 1;
+          console.log(tweetSource);
+
           while(index >= 0){
-            var tweet = streams.home[index];
+            var tweet = tweetSource[index];
 
             var $tweet = $('<div class="tweets"></div>');
-            var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
+            if(viewMode === "all"){
+              var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
+            }
             var message = $('<div class="message">' + tweet.message + '</div>');
             var timestamp = $('<div class="timestamp">' + tweet.created_at + '</div>');
 
-            $tweet.append(username);
+            if(viewMode === "all"){
+              $tweet.append(username);
+            }
             $tweet.append(message);
             $tweet.append(timestamp);
 
             $tweet.appendTo($body);
             index -= 1;
           }
-          timer = setTimeout(update, updateTime);
+
+          if(autoUpdateMode){
+            timer = setTimeout(update, updateTime);
+          }
         };
 
-        //For displaying specific user tweets.
-        var userTweet = function(user){
+        //Default: tweets update every 5 seconds.
+        var updateTime = 5000;
 
-          var $body = $('.tweets');
-          $body.html('');
-          $body.append('<h3>All tweets by @' + user + "</h3>");
-          $body.append('<button class="back">Back</button>');
-
-          var index = streams.users[user].length - 1;
-          while(index >= 0){
-            var tweet = streams.users[user][index];
-
-            var $tweet = $('<div class="tweets"></div>');
-            var message = $('<p class="message">' + tweet.message + '</p>');
-            var timestamp = $('<p class="timestamp">' + tweet.created_at + '</p>');
-
-            $tweet.append(message);
-            $tweet.append(timestamp);
-
-            $tweet.appendTo($body);
-            index -= 1;
+        $('.input').on('focus', function(){
+          if($(this).val() ==='Enter your tweet here!'){
+            $(this).val('');
           }
-          timer = setTimeout(function(){userTweet(user);}, updateTime);
-        }
-
-        //Default: tweets update every 3 seconds.
-        var updateTime = 3000;
+        });
+        $('.input').on('keypress', function(event){
+          if(event.keyCode === 13){
+            $('.enter').trigger('click');
+          }
+        })
+        $('.enter').on('click', function(){
+          var newTweet = $('.input').val();
+          writeTweet(newTweet);
+          $('.input').val('Enter your tweet here!');
+          $('.input').$('.blur');
+        });
 
         $('.updatenow').on('click', update);
-
         //Allow user to set auto-update frequency.
         $('.updatetime').on('keypress', function(event){
           if(event.keyCode == 13){
@@ -83,35 +93,31 @@
             $(this).blur();
           }
         });
+        $('.toggleauto').on('click', function(){
+          if($(this).data('mode')==='enabled'){
+            autoUpdateMode = false;
+            clearTimeout(timer);
+            $(this).data('mode', 'disabled');
+            $(this).text('Enable auto-update');
+          }else if($(this).data('mode')==='disabled'){
+            autoUpdateMode = true;
+            update();
+            $(this).data('mode', 'enabled');
+            $(this).text('Disable auto-update');
+          }
+        });
 
         //Shows all tweets by the user when the user name is clicked.
         $('.tweets').on('click', '.username', function(){
           clearTimeout(timer);
-          console.log("clicked");
-          userTweet($(this).data('user'));
-        });
-
-        $('.tweets').on('click', '.back', function(){
-          clearTimeout(timer);
+          viewMode = $(this).data('user');
+          console.log(viewMode);
           update();
         });
-
-        $('.input').on('focus', function(){
-          if($(this).val() ==='Enter your tweet here!'){
-            $(this).val('');
-          }
-        });
-        $('.input').on('keypress', function(event){
-          if(event.keyCode === 13){
-            $('.enter').trigger('click');
-          }
-        })
-
-        $('.enter').on('click', function(){
-          var newTweet = $('.input').val();
-          writeTweet(newTweet);
-          $('.input').val('Enter your tweet here!');
-          $('.input').$('.blur');
+        $('.tweets').on('click', '.back', function(){
+          clearTimeout(timer);
+          viewMode = 'all';
+          update();
         });
 
         //Initial display of tweets upon opening page.
@@ -123,10 +129,14 @@
 
     <h1>Twittler by Marco Au</h1>
     <br>
-    <input class="input" type="text" value="Enter your tweet here!"></input>
-    <button class="enter">Enter</button>
-    <br>
-    Auto-update every: <input class="updatetime" type="number" value='3'></input>seconds <button class="updatenow">Update now!</button>
+    <div class="functions">
+      <input class="input" type="text" value="Enter your tweet here!"></input>
+      <button class="enter">Enter</button>
+      <br>
+      Auto-update every: <input class="updatetime" type="number" value='3'></input>seconds 
+      <button class="updatenow">Update now!</button>
+      <button class="toggleauto" data-mode="enabled">Disable auto-update</button>
+      </div>
     <div class="tweets"></div>
 
   </body>

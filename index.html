@@ -8,21 +8,31 @@
     <script>
 
       $(document).ready(function(){
-        var $body = $('.tweets');
-        $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+        //Initial tweet displaying mechanism.
+        var update = function(){
+          var $body = $('.tweets');
+          $body.html('');
+
+          var index = streams.home.length - 1;
+          while(index >= 0){
+            var tweet = streams.home[index];
+            var $tweet = $('<div></div>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            $tweet.appendTo($body);
+            index -= 1;
+          }
+        };
+
+        $('.updatenow').on('click', update);
+
+        //Initial display of tweets upon opening page.
+        update();
 
       });
 
     </script>
+
     <h1>Twittler by Marco Au</h1>
     <p>
     <input class="input" type="text" value="Enter your tweet here!"></input>
@@ -30,5 +40,6 @@
     <p>
     Auto-update every: <input class="updatetime" type="text">seconds <button class="updatenow">Update now!</button>
     <div class="tweets"></div>
+
   </body>
 </html>

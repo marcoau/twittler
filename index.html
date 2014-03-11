@@ -22,7 +22,11 @@
             $tweet.appendTo($body);
             index -= 1;
           }
+          setTimeout(update, updateTime);
         };
+
+        //Default: tweets update every 3 seconds.
+        var updateTime = 3000;
 
         $('.updatenow').on('click', update);
 

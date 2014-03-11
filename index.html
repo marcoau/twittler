@@ -10,6 +10,9 @@
 
       $(document).ready(function(){
 
+        //Used for stopping setTimeouts of both update & usertweet
+        var timer;
+
         //Initial tweet displaying mechanism.
         var update = function(){
           var $body = $('.tweets');
@@ -19,10 +22,10 @@
           while(index >= 0){
             var tweet = streams.home[index];
 
-            var $tweet = $('<div></div>');
-            var username = $('<p class="username">@' + tweet.user + '</p>');
-            var message = $('<p class="message">' + tweet.message + '</p>');
-            var timestamp = $('<p class="timestamp">' + tweet.created_at + '</p>');
+            var $tweet = $('<div class="tweets"></div>');
+            var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
+            var message = $('<div class="message">' + tweet.message + '</div>');
+            var timestamp = $('<div class="timestamp">' + tweet.created_at + '</div>');
 
             $tweet.append(username);
             $tweet.append(message);
@@ -31,8 +34,33 @@
             $tweet.appendTo($body);
             index -= 1;
           }
-          setTimeout(update, updateTime);
+          timer = setTimeout(update, updateTime);
         };
+
+        //For displaying specific user tweets.
+        var userTweet = function(user){
+
+          var $body = $('.tweets');
+          $body.html('');
+          $body.append('<h3>All tweets by @' + user + "</h3>");
+          $body.append('<button class="back">Back</button>');
+
+          var index = streams.users[user].length - 1;
+          while(index >= 0){
+            var tweet = streams.users[user][index];
+
+            var $tweet = $('<div class="tweets"></div>');
+            var message = $('<p class="message">' + tweet.message + '</p>');
+            var timestamp = $('<p class="timestamp">' + tweet.created_at + '</p>');
+
+            $tweet.append(message);
+            $tweet.append(timestamp);
+
+            $tweet.appendTo($body);
+            index -= 1;
+          }
+          timer = setTimeout(function(){userTweet(user);}, updateTime);
+        }
 
         //Default: tweets update every 3 seconds.
         var updateTime = 3000;
@@ -45,12 +73,25 @@
             var ms = Number($(this).val());
             if(ms){
               updateTime = ms * 1000;
+              clearTimeout(timer);
               update();
             }else{
               alert("Error: Not a valid number!");
             }
             $(this).blur();
           }
+        });
+
+        //Shows all tweets by the user when the user name is clicked.
+        $('.tweets').on('click', '.username', function(){
+          clearTimeout(timer);
+          console.log("clicked");
+          userTweet($(this).data('user'));
+        });
+
+        $('.tweets').on('click', '.back', function(){
+          clearTimeout(timer);
+          update();
         });
 
         //Initial display of tweets upon opening page.

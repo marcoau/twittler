@@ -8,7 +8,7 @@
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
+        var $body = $('.tweets');
         $body.html('');
 
         var index = streams.home.length - 1;
@@ -23,5 +23,12 @@
       });
 
     </script>
+    <h1>Twittler by Marco Au</h1>
+    <p>
+    <input class="input" type="text" value="Enter your tweet here!"></input>
+    <button class="enter">Enter</button>
+    <p>
+    Auto-update every: <input class="updatetime" type="text">seconds <button class="updatenow">Update now!</button>
+    <div class="tweets"></div>
   </body>
 </html>

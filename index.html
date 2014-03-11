@@ -8,7 +8,11 @@
   <body>
     <script>
 
+      var visitor = prompt("Welcome to Twittler! What's your username?");
+
       $(document).ready(function(){
+
+        streams.users[visitor] = [];
 
         //Used for stopping setTimeouts of both update & usertweet
         var timer;
@@ -68,7 +72,7 @@
         $('.updatenow').on('click', update);
 
         //Allow user to set auto-update frequency.
-        $('.updatetime').on('keyup', function(event){
+        $('.updatetime').on('keypress', function(event){
           if(event.keyCode == 13){
             var ms = Number($(this).val());
             if(ms){
@@ -92,6 +96,13 @@
         $('.tweets').on('click', '.back', function(){
           clearTimeout(timer);
           update();
+        });
+
+        //$('.input').on('')
+
+        $('.enter').on('click', function(){
+          var newTweet = $('.input').val();
+          writeTweet(newTweet);
         });
 
         //Initial display of tweets upon opening page.

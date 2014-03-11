@@ -10,6 +10,9 @@
       var visitor = prompt("Welcome to Twittler! What's your username?");
 
       $(document).ready(function(){
+
+        $('.loggedinas').text("You are logged in as " + visitor);
+
         streams.users[visitor] = [];
 
         var timer;
@@ -60,6 +63,12 @@
 
         //Default: tweets update every 5 seconds.
         var updateTime = 5000;
+
+        $('.changeuser').on('click', function(){
+          visitor = prompt("What's your username?");
+          streams.users[visitor] = [];
+          $('.loggedinas').text("You are logged in as " + visitor);
+        })
 
         $('.input').on('focus', function(){
           if($(this).val() ==='Enter your tweet here!'){
@@ -130,10 +139,13 @@
     <h1>Twittler by Marco Au</h1>
     <br>
     <div class="functions">
+      <div class = "loggedinas"></div>
+      <button class = "changeuser">Wanna switch to different user?</button>
+      <br>
       <input class="input" type="text" value="Enter your tweet here!"></input>
       <button class="enter">Enter</button>
       <br>
-      Auto-update every: <input class="updatetime" type="number" value='3'></input>seconds 
+      Auto-update every: <input class="updatetime" type="number" value='5'></input>seconds 
       <button class="updatenow">Update now!</button>
       <button class="toggleauto" data-mode="enabled">Disable auto-update</button>
       </div>

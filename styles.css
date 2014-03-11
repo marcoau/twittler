@@ -12,6 +12,10 @@ h1{
     margin-right:auto;
 	width: 800px;
 }
+.loggedinas{
+	width: 300px;
+	display: inline
+}
 .tweets{
 	background-color: white;
 	margin-left:auto;

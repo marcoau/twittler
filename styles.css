@@ -1,3 +1,39 @@
+body{
+	background-color: #C5F5B8;
+}
+h1{
+    margin-left:auto;
+    margin-right:auto;
+	width: 800px;
+}
+.functions{
+	background-color: gray;
+	margin-left:auto;
+    margin-right:auto;
+	width: 800px;
+}
+.tweets{
+	background-color: white;
+	margin-left:auto;
+    margin-right:auto;
+	width: 800px;
+}
 *{
 	font-family: Tahoma, Geneva, sans-serif
+}
+.username{
+	font-size: 24pt
+}
+.usertweets{
+	position: absolute;
+}
+.overlay{
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
 }

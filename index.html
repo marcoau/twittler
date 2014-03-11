@@ -17,8 +17,16 @@
           var index = streams.home.length - 1;
           while(index >= 0){
             var tweet = streams.home[index];
+
             var $tweet = $('<div></div>');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            var username = $('<p class="username">@' + tweet.user + '</p>');
+            var message = $('<p class="message">' + tweet.message + '</p>');
+            var timestamp = $('<p class="timestamp">' + tweet.created_at + '</p>');
+
+            $tweet.append(username);
+            $tweet.append(message);
+            $tweet.append(timestamp);
+
             $tweet.appendTo($body);
             index -= 1;
           }
@@ -52,10 +60,10 @@
     </script>
 
     <h1>Twittler by Marco Au</h1>
-    <p>
+    <br>
     <input class="input" type="text" value="Enter your tweet here!"></input>
     <button class="enter">Enter</button>
-    <p>
+    <br>
     Auto-update every: <input class="updatetime" type="number" value='3'></input>seconds <button class="updatenow">Update now!</button>
     <div class="tweets"></div>
 

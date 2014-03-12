@@ -18,6 +18,7 @@
         var timer;
         var autoUpdateMode = true;
         var viewMode = "all";
+        var maxTweets = 20;
 
         //Initial tweet displaying mechanism.
         var update = function(){
@@ -35,9 +36,9 @@
           }
 
           var index = tweetSource.length - 1;
-          console.log(tweetSource);
+          var lastIndex = index + 1 > maxTweets ? index + 1 - maxTweets : 0;
 
-          while(index >= 0){
+          while(index >= lastIndex){
             var tweet = tweetSource[index];
 
             var $tweet = $('<div class="tweet"></div>');
@@ -124,6 +125,21 @@
             update();
             $(this).data('mode', 'enabled');
             $(this).text('Disable auto-update');
+          }
+        });
+
+        //Allows user to set maximum tweets displayed.
+        $('.tweetnumber').on('keypress', function(event){
+          if(event.keyCode == 13){
+            var num = Number($(this).val());
+            if(num){
+              maxTweets = num;
+              clearTimeout(timer);
+              update();
+            }else{
+              alert("Error: Not a valid number!");
+            }
+            $(this).blur();
           }
         });
 

@@ -11,7 +11,7 @@
 
       $(document).ready(function(){
 
-        $('.loggedinas').text("You are logged in as " + visitor);
+        $('.loggedinas').text("You are logged in as @" + visitor);
 
         streams.users[visitor] = [];
 
@@ -27,6 +27,7 @@
 
           if(viewMode === "all"){
             var tweetSource = streams.home;
+            $body.append('<h3>Your tweets</h3');
           }else{
             var tweetSource = streams.users[viewMode];
             $body.append('<h3>All tweets by @' + viewMode + "</h3>");
@@ -44,7 +45,7 @@
               var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
             }
             var message = $('<div class="message">' + tweet.message + '</div>');
-            var timestamp = $('<div class="timestamp">' + tweet.created_at + '</div>');
+            var timestamp = $('<div class="timestamp">' + humaneTime(tweet.created_at) + '</div>');
 
             if(viewMode === "all"){
               $tweet.append(username);
@@ -61,13 +62,27 @@
           }
         };
 
+        var humaneTime = function(oldTime){
+          var newTime = new Date();
+          var timeDiff = newTime - oldTime;
+          if(timeDiff < 60 * 1000){
+            return Math.round(timeDiff / 1000) + " seconds ago";
+          }else if(timeDiff < 60 * 60 * 1000){
+            return Math.round(timeDiff / 60 / 1000) + " minutes ago";
+          }else if(timeDiff < 24 * 60 * 60 * 1000){
+            return Math.round(timeDiff / 60 / 60 / 1000) + " hours ago";;
+          }else{
+            return Math.round(timeDiff / 24 / 60 / 60 / 1000);
+          }
+        }
+
         //Default: tweets update every 5 seconds.
         var updateTime = 5000;
 
         $('.changeuser').on('click', function(){
           visitor = prompt("What's your username?");
           streams.users[visitor] = [];
-          $('.loggedinas').text("You are logged in as " + visitor);
+          $('.loggedinas').text("You are logged in as @" + visitor);
         })
 
         $('.input').on('focus', function(){

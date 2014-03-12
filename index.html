@@ -11,7 +11,7 @@
 
       $(document).ready(function(){
 
-        $('.loggedinas').text("You are logged in as @" + visitor);
+        $('.loggedinas').html("<p>You are logged in as <span class='ownname' data-user=" + visitor + ">@" + visitor + "</span>.<p>");
 
         streams.users[visitor] = [];
 
@@ -40,16 +40,12 @@
           while(index >= 0){
             var tweet = tweetSource[index];
 
-            var $tweet = $('<div class="tweets"></div>');
-            if(viewMode === "all"){
-              var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
-            }
+            var $tweet = $('<div class="tweet"></div>');
+            var username = $('<div class="username" data-user=' + tweet.user + '>@' + tweet.user + '</div>');
             var message = $('<div class="message">' + tweet.message + '</div>');
             var timestamp = $('<div class="timestamp">' + humaneTime(tweet.created_at) + '</div>');
 
-            if(viewMode === "all"){
-              $tweet.append(username);
-            }
+            $tweet.append(username);
             $tweet.append(message);
             $tweet.append(timestamp);
 
@@ -82,8 +78,8 @@
         $('.changeuser').on('click', function(){
           visitor = prompt("What's your username?");
           streams.users[visitor] = [];
-          $('.loggedinas').text("You are logged in as @" + visitor);
-        })
+          $('.loggedinas').html("<p>You are logged in as <span class='ownname' data-user=" + visitor + ">@" + visitor + "</span>.<p>");
+        });
 
         $('.input').on('focus', function(){
           if($(this).val() ==='Enter your tweet here!'){
@@ -132,12 +128,14 @@
         });
 
         //Shows all tweets by the user when the user name is clicked.
-        $('.tweets').on('click', '.username', function(){
+        var specificUser = function(){
           clearTimeout(timer);
           viewMode = $(this).data('user');
           console.log(viewMode);
           update();
-        });
+        }
+        $('.functions').on('click', '.ownname', specificUser);
+        $('.tweets').on('click', '.username', specificUser);
         $('.tweets').on('click', '.back', function(){
           clearTimeout(timer);
           viewMode = 'all';
@@ -155,15 +153,20 @@
     <br>
     <div class="functions">
       <div class = "loggedinas"></div>
-      <button class = "changeuser">Wanna switch to different user?</button>
-      <br>
+      <button class = "changeuser">Different User?</button>
       <input class="input" type="text" value="Enter your tweet here!"></input>
       <button class="enter">Enter</button>
       <br>
-      Auto-update every: <input class="updatetime" type="number" value='5'></input>seconds 
-      <button class="updatenow">Update now!</button>
-      <button class="toggleauto" data-mode="enabled">Disable auto-update</button>
+      <div class="updatefunctions">
+        Auto-update every: <input class="updatetime" type="number" value='5'></input> seconds
+        <button class="toggleauto" data-mode="enabled">Disable auto-update</button>
       </div>
+      <div class="tweetcount">
+        Display a maximum of: <input class="tweetnumber" type="number" value='20'></input> tweets
+        <button class="updatenow">Update now!</button>
+      </div>
+    </div>
+
     <div class="tweets"></div>
 
   </body>

@@ -1,3 +1,6 @@
+*{
+	font-family: Arial, Helvetica, sans-serif;
+}
 body{
 	background-color: #C5F5B8;
 }
@@ -6,27 +9,129 @@ h1{
     margin-right:auto;
 	width: 800px;
 }
+button{
+	position: absolute;
+	height: 25px;
+	font-size: 18px;
+	width: 150px;
+	right: 10px;
+}
 .functions{
-	background-color: gray;
+	background-color: white;
+	position: relative;
 	margin-left:auto;
     margin-right:auto;
-	width: 800px;
+    margin-top:10px;
+    margin-bottom: 10px;
+	width: 780px;
+	top: 10px;
+	height: 150px;
+	border-radius: 10px;
+    padding: 10px;
 }
 .loggedinas{
 	width: 300px;
-	display: inline
+	font-size: 20px;
+	font-weight: bold;
+	margin: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px
 }
+.loggedinas > p{
+	display: inline;
+	margin: 0px;
+}
+.ownname{
+	color: #14157A;
+}
+.changeuser{
+	top: 10px;
+	right: 10px;
+}
+
+input{
+	font-size: 18px;
+	width: 100px;
+	height: 20px;
+}
+
+.input{
+	margin: 0px;
+	padding: 5px;
+	margin-bottom: 15px;
+	font-size: 16px;
+	border-radius: 5px;
+	width: 600px;
+}
+
+.updatefunctions{
+	font-size: 18px;
+	padding: 5px;
+}
+
+.toggleauto{
+	font-size: 14px;
+}
+
+.tweetcount{
+	font-size: 18px;
+	padding: 5px;
+}
+
 .tweets{
 	background-color: white;
+	position: relative;
 	margin-left:auto;
     margin-right:auto;
-	width: 800px;
+    margin-top:10px;
+    margin-top:10px;
+    margin-bottom: 10px;
+	width: 780px;
+	top: 10px;
+	border-radius: 10px;
+    padding: 10px;
 }
-*{
-	font-family: Tahoma, Geneva, sans-serif
+h3{
+	margin: 0px;
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.tweet{
+	position: relative;
+	background-color: #E6E8E3;
+	margin-left:auto;
+    margin-right:auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+	height: 50px;
+	width: 780px;
+	border-radius: 5px;
 }
 .username{
-	font-size: 24pt
+	position: absolute;
+	top: 3px;
+	left: 5px;
+	height: 20px;
+	width: 190px;
+	font-size: 16pt;
+	font-weight: bold;
+	color:#14157A;
+}
+.message{
+	position: absolute;
+	background-color: white;
+    top: 5px;
+	left: 250px;
+	height: 30px;
+	width: 515px;
+	padding: 5px;
+	border-radius: 3px;
+}
+.timestamp{
+	position: absolute;
+	left: 5px;
+	bottom: 5px;
 }
 .usertweets{
 	position: absolute;

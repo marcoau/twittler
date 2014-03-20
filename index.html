@@ -93,6 +93,11 @@
             $(this).val('');
           }
         });
+        $('.input').on('blur', function(){
+          if($(this).val() === ''){
+            $(this).val('Enter your tweet here!');
+          }
+        });
         $('.input').on('keypress', function(event){
           if(event.keyCode === 13){
             $('.enter').trigger('click');

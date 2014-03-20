@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="jquery.js"></script>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/moment.js"></script>
     <script src="data_generator.js"></script>
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -71,7 +72,12 @@
           }else{
             return Math.round(timeDiff / 24 / 60 / 60 / 1000);
           }
-        }
+        };
+
+        //Moment.js library can be utilized for timestamp display too.
+        var momentTime = function(oldTime){
+          moment(oldTime).fromNow();
+        };
 
         //Default: tweets update every 5 seconds.
         var updateTime = 5000;
